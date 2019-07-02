@@ -12,7 +12,6 @@ import (
 	"golang.org/x/sync/errgroup"
 	"gopkg.in/gomail.v2"
 	htemplate "html/template"
-	"os"
 	ttemplate "text/template"
 )
 
@@ -36,27 +35,30 @@ type mailMessage struct {
 	TemplateContext map[string]interface{} `json:"template_context"`
 }
 
-func exitErrorf(msg string, args ...interface{}) {
-	_, _ = fmt.Fprintf(os.Stderr, msg+"\n", args...)
-	os.Exit(1)
-}
-
-func buildMailContent(storageConnector storageconnector.StorageConnector, mailMsg *mailMessage) *gomail.Message {
+func buildMailContent(storageConnector storageconnector.StorageConnector, mailMsg *mailMessage) (*gomail.Message, error) {
 	message := gomail.NewMessage()
 
-	htmlTmpl, _ := htemplate.New("htmlTemplate").Parse(storageConnector.GetTemplateContent(fmt.Sprintf("%s.html.template", mailMsg.Template)))
-	txtTmpl, _ := ttemplate.New("textTemplate").Parse(storageConnector.GetTemplateContent(fmt.Sprintf("%s.txt.template", mailMsg.Template)))
+	htmlTemplateContent, err := storageConnector.GetTemplateContent(fmt.Sprintf("%s.html.template", mailMsg.Template))
+	if err != nil {
+		return nil, err
+	}
+	txtTemplateContent, err := storageConnector.GetTemplateContent(fmt.Sprintf("%s.txt.template", mailMsg.Template))
+	if err != nil {
+		return nil, err
+	}
+	htmlTmpl, _ := htemplate.New("htmlTemplate").Parse(htmlTemplateContent)
+	txtTmpl, _ := ttemplate.New("textTemplate").Parse(txtTemplateContent)
 
 	var htmlTmplBuffer bytes.Buffer
-	err := htmlTmpl.Execute(&htmlTmplBuffer, mailMsg.TemplateContext)
+	err = htmlTmpl.Execute(&htmlTmplBuffer, mailMsg.TemplateContext)
 	if err != nil {
-		exitErrorf("Unable to execute HTML template: %+v\n", err)
+		return nil, fmt.Errorf("unable to execute HTML template: %s", err.Error())
 	}
 
 	var txtTmplBuffer bytes.Buffer
 	err = txtTmpl.Execute(&txtTmplBuffer, mailMsg.TemplateContext)
 	if err != nil {
-		exitErrorf("Unable to execute TXT template: %+v\n", err)
+		return nil, fmt.Errorf("unable to execute TXT template: %s", err.Error())
 	}
 
 	ccAddresses := make([]string, len(mailMsg.CC))
@@ -78,7 +80,7 @@ func buildMailContent(storageConnector storageconnector.StorageConnector, mailMs
 	message.SetHeader("Bcc", bccAddresses...)
 	message.SetHeader("Reply-To", mailMsg.ReplyToAddress)
 
-	return message
+	return message, nil
 }
 
 func sendMail(storageConnector storageconnector.StorageConnector, smtpTransport *gomail.Dialer, messageBody string) error {
@@ -86,13 +88,16 @@ func sendMail(storageConnector storageconnector.StorageConnector, smtpTransport 
 
 	err := json.Unmarshal([]byte(messageBody), &mailMsg)
 	if err != nil {
+		return fmt.Errorf("unable tu unmarshal email: %s", err.Error())
+	}
+
+	mail, err := buildMailContent(storageConnector, &mailMsg)
+	if err != nil {
 		return err
 	}
 
-	mail := buildMailContent(storageConnector, &mailMsg)
-
 	if err := smtpTransport.DialAndSend(mail); err != nil {
-		return err
+		return fmt.Errorf("unable to send email through smtp: %s", err.Error())
 	}
 
 	return nil
@@ -102,14 +107,15 @@ func sendMail(storageConnector storageconnector.StorageConnector, smtpTransport 
 func HandleRequest(ctx context.Context, event events.SQSEvent) error {
 	cfg := config{}
 	if err := env.Parse(&cfg); err != nil {
-		exitErrorf("Unable to parse configuration: %+v\n", err)
+		return fmt.Errorf("unable to parse configuration: %s", err.Error())
 	}
 	smtpTransport := gomail.NewDialer(cfg.SMTPHost, cfg.SMTPPort, cfg.SMTPUserName, cfg.SMTPPassword)
-	storageConnector := storageconnector.NewS3(cfg.Bucket)
+	storageConnector, err := storageconnector.NewS3(cfg.Bucket)
+	if err != nil {
+		return fmt.Errorf("unable to instantiate S3 storage connector: %s", err.Error())
+	}
 
 	errs, ctx := errgroup.WithContext(ctx)
-
-	fmt.Println(len(event.Records))
 
 	for _, message := range event.Records {
 		errs.Go(func() error {
