@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/caarlos0/env/v6"
 	"github.com/forsam-education/hermes/storageconnector"
+	"golang.org/x/sync/errgroup"
 	"gopkg.in/gomail.v2"
 	htemplate "html/template"
 	"os"
@@ -80,33 +81,43 @@ func buildMailContent(storageConnector storageconnector.StorageConnector, mailMs
 	return message
 }
 
+func sendMail(storageConnector storageconnector.StorageConnector, smtpTransport *gomail.Dialer, messageBody string) error {
+	var mailMsg mailMessage
+
+	err := json.Unmarshal([]byte(messageBody), &mailMsg)
+	if err != nil {
+		return err
+	}
+
+	mail := buildMailContent(storageConnector, &mailMsg)
+
+	if err := smtpTransport.DialAndSend(mail); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // HandleRequest is the main handler function used by the lambda runtime for the incomming event.
-func HandleRequest(_ context.Context, event events.SQSEvent) error {
+func HandleRequest(ctx context.Context, event events.SQSEvent) error {
 	cfg := config{}
 	if err := env.Parse(&cfg); err != nil {
 		exitErrorf("Unable to parse configuration: %+v\n", err)
 	}
-
 	smtpTransport := gomail.NewDialer(cfg.SMTPHost, cfg.SMTPPort, cfg.SMTPUserName, cfg.SMTPPassword)
+	storageConnector := storageconnector.NewS3(cfg.Bucket)
+
+	errs, ctx := errgroup.WithContext(ctx)
+
+	fmt.Println(len(event.Records))
 
 	for _, message := range event.Records {
-		var mailMsg mailMessage
-
-		err := json.Unmarshal([]byte(message.Body), &mailMsg)
-		if err != nil {
-			exitErrorf("Unable to unmarshal JSON for reason: %+v\nBody: %s", err, message.Body)
-		}
-
-		storageConnector := storageconnector.NewS3(cfg.Bucket)
-
-		mail := buildMailContent(storageConnector, &mailMsg)
-
-		if err := smtpTransport.DialAndSend(mail); err != nil {
-			exitErrorf("Unable to send mail: %+v\n", err)
-		}
+		errs.Go(func() error {
+			return sendMail(storageConnector, smtpTransport, message.Body)
+		})
 	}
 
-	return nil
+	return errs.Wait()
 }
 
 func main() {
