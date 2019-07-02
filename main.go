@@ -115,7 +115,7 @@ func HandleRequest(ctx context.Context, event events.SQSEvent) error {
 		return fmt.Errorf("unable to instantiate S3 storage connector: %s", err.Error())
 	}
 
-	errs, ctx := errgroup.WithContext(ctx)
+	errs, _ := errgroup.WithContext(ctx)
 
 	for _, message := range event.Records {
 		errs.Go(func() error {

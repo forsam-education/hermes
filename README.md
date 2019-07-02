@@ -1,5 +1,9 @@
 # Hermes
 
+[![GoDoc](https://godoc.org/github.com/forsam-education/hermes?status.svg)](https://godoc.org/github.com/forsam-education/hermes)
+[![Go Report Card](https://goreportcard.com/badge/github.com/forsam-education/hermes)](https://goreportcard.com/report/github.com/forsam-education/hermes)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A simple project that handles sending e-mails through SMTP from a template storage system, using SQS messages, meant to be run on an AWS Lambda.
 
 ## Quality assurance
@@ -22,7 +26,7 @@ You then only have to pass the template name in the SQS message, and it will get
 
 ## Templates format
 
-The templates are in the basic (Go HTML Template)[https://golang.org/pkg/html/template/] and (Go TEXT Template)[https://golang.org/pkg/text/template/] formats, and therefor you must use the `{{.myVar}}` notation, the var_name being the key of your data in the `template_context` json object.
+The templates are in the basic [Go HTML Template](https://golang.org/pkg/html/template/) and [Go TEXT Template](https://golang.org/pkg/text/template/) formats, and therefor you must use the `{{.myVar}}` notation, the var_name being the key of your data in the `template_context` json object.
 
 ## Call process
 
