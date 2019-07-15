@@ -3,6 +3,8 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.12
+        environment:
+          GO111MODULE: "on"
     working_directory: /go/src/github.com/forsam-education/hermes
 
     steps:
@@ -11,4 +13,5 @@ jobs:
       - run: go get github.com/kr/pretty github.com/pmezard/go-difflib/difflib
       - run: diff -u <(echo -n) <(gofmt -d ./)
       - run: golint -set_exit_status $(go list ./... | grep -v /vendor/)
+      - run: go get
       - run: GOOS=linux go build -ldflags="-s -w" -o bin/hermes ./main.go
