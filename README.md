@@ -1,5 +1,6 @@
 # Hermes
 
+[![CircleCI](https://circleci.com/gh/forsam-education/hermes/tree/master.svg?style=svg)](https://circleci.com/gh/forsam-education/hermes/tree/master)
 [![GoDoc](https://godoc.org/github.com/forsam-education/hermes?status.svg)](https://godoc.org/github.com/forsam-education/hermes)
 [![Go Report Card](https://goreportcard.com/badge/github.com/forsam-education/hermes)](https://goreportcard.com/report/github.com/forsam-education/hermes)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
