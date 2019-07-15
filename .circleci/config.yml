@@ -10,18 +10,21 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Get linting dependencies
-        command: |
-          go get -u golang.org/x/lint/golint;
-          go get github.com/kr/pretty github.com/pmezard/go-difflib/difflib
+          name: Get linting dependencies
+          command: |
+            go get -u golang.org/x/lint/golint
+            go get github.com/kr/pretty github.com/pmezard/go-difflib/difflib
+
       - run:
-        name: Lint code
-        command: |
-          diff -u <(echo -n) <(gofmt -d ./);
-          golint -set_exit_status $(go list ./... | grep -v /vendor/)
+          name: Lint code
+          command: |
+            diff -u <(echo -n) <(gofmt -d ./)
+            golint -set_exit_status $(go list ./... | grep -v /vendor/)
+
       - run:
-        name: Get dependencies
-        command: go get
+          name: Get dependencies
+          command: go get
+
       - run:
-        name: Build
-        command: GOOS=linux go build -ldflags="-s -w" -o bin/hermes ./main.go
+          name: Build
+          command: GOOS=linux go build -ldflags="-s -w" -o bin/hermes ./main.go
