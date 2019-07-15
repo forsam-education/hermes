@@ -28,6 +28,12 @@ You then only have to pass the template name in the SQS message, and it will get
 
 The templates are in the basic [Go HTML Template](https://golang.org/pkg/html/template/) and [Go TEXT Template](https://golang.org/pkg/text/template/) formats, and therefor you must use the `{{.myVar}}` notation, the var_name being the key of your data in the `template_context` json object.
 
+## Environment Variables
+
+You have to configure the SMTP server connection details and the S3 template bucket using environment variables.
+
+You can customise their names in the `config` structure, in `main.go`, specifically if you implement a new storage connector.
+
 ## Call process
 
 When deployed, this lambda has to subscribe to an SQS queue that will transport the messages containing the informations about the mails to send.
