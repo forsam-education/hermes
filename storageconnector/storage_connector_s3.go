@@ -31,12 +31,12 @@ func (storageConnector S3) GetTemplateContent(templateName string) (string, erro
 }
 
 // NewS3 instanciates an S3 with the AWS Session and AWS S3 Client
-func NewS3(bucket string) (*S3, error) {
+func NewS3(bucket string, region string) (*S3, error) {
 	p := new(S3)
 	p.bucket = bucket
 	sess, err := session.NewSession(
 		&aws.Config{
-			Region: aws.String("eu-west-1"),
+			Region: aws.String(region),
 		},
 	)
 	if err != nil {
