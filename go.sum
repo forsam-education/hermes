@@ -11,6 +11,8 @@ github.com/forsam-education/redriver v0.0.0-20190717205345-0c0115bcb388 h1:KtAxp
 github.com/forsam-education/redriver v0.0.0-20190717205345-0c0115bcb388/go.mod h1:MD4ySB6SnQ6J/Uw+jlYphy/SM2Ifa0nh0GlZ7cQni9w=
 github.com/forsam-education/redriver v0.0.0-20190717205723-eaa9df4aa69c h1:aV3CmY4QPloP60/TZF7+HthRgB0HTXShQ44fExUJ0HM=
 github.com/forsam-education/redriver v0.0.0-20190717205723-eaa9df4aa69c/go.mod h1:MD4ySB6SnQ6J/Uw+jlYphy/SM2Ifa0nh0GlZ7cQni9w=
+github.com/forsam-education/redriver v0.0.0-20190717215755-2c2c7642a9ca h1:OM60RSijXFLS8UU1iPU2RcL/aAY+sJSjEsD6UpYHRaE=
+github.com/forsam-education/redriver v0.0.0-20190717215755-2c2c7642a9ca/go.mod h1:MD4ySB6SnQ6J/Uw+jlYphy/SM2Ifa0nh0GlZ7cQni9w=
 github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af h1:pmfjZENx5imkbgOkpRUYLnmbU7UEFbjtDA2hxJ1ichM=
 github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af/go.mod h1:Nht3zPeWKUH0NzdCt2Blrr5ys8VGpn0CEB0cQHVjt7k=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
