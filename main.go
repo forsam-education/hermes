@@ -5,11 +5,9 @@ import (
 	"fmt"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-lambda-go/lambdacontext"
 	"github.com/caarlos0/env/v6"
 	"github.com/forsam-education/hermes/mailmessage"
 	"github.com/forsam-education/hermes/storageconnector"
-	"github.com/forsam-education/loggerformatters"
 	"github.com/forsam-education/redriver"
 	"github.com/forsam-education/simplelogger"
 	"gopkg.in/gomail.v2"
@@ -26,7 +24,7 @@ type config struct {
 }
 
 // HandleRequest is the main handler function used by the lambda runtime for the incomming event.
-func HandleRequest(ctx context.Context, event events.SQSEvent) error {
+func HandleRequest(_ context.Context, event events.SQSEvent) error {
 	simplelogger.GlobalLogger = simplelogger.NewDefaultLogger(simplelogger.DEBUG)
 
 	cfg := config{}
