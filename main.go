@@ -25,16 +25,9 @@ type config struct {
 	QueueURL     string `env:"SQS_QUEUE"`
 }
 
-const AppName string = "HERMES"
-
 // HandleRequest is the main handler function used by the lambda runtime for the incomming event.
 func HandleRequest(ctx context.Context, event events.SQSEvent) error {
-	lc, _ := lambdacontext.FromContext(ctx)
-	loggerFormatter := loggerformatters.JSONFormatter{
-		ServiceName: AppName,
-		CorrelationID: lc.AwsRequestID,
-	}
-	simplelogger.GlobalLogger = simplelogger.Logger{MinLevel: simplelogger.DEBUG, Formatter: loggerFormatter, Writer: simplelogger.DefaultWriter{}}
+	simplelogger.GlobalLogger = simplelogger.NewDefaultLogger(simplelogger.DEBUG)
 
 	cfg := config{}
 	if err := env.Parse(&cfg); err != nil {
