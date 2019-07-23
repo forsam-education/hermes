@@ -4,7 +4,7 @@ go 1.12
 
 require (
 	github.com/aws/aws-lambda-go v1.11.1
-	github.com/aws/aws-sdk-go v1.20.21
+	github.com/aws/aws-sdk-go v1.21.2
 	github.com/caarlos0/env/v6 v6.0.0
 	github.com/forsam-education/redriver v0.0.0-20190717215755-2c2c7642a9ca
 	github.com/stretchr/objx v0.2.0 // indirect
