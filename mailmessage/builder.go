@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/forsam-education/hermes/storageconnector"
+	"github.com/forsam-education/simplelogger"
 	"gopkg.in/gomail.v2"
 	htemplate "html/template"
 	ttemplate "text/template"
@@ -87,6 +88,8 @@ func SendMail(storageConnector storageconnector.StorageConnector, smtpTransport 
 	if err := smtpTransport.DialAndSend(mail); err != nil {
 		return fmt.Errorf("unable to send email through smtp: %s", err.Error())
 	}
+
+	simplelogger.GlobalLogger.Info("Sent email message", simplelogger.LogExtraData{"mail": mailMsg})
 
 	return nil
 }

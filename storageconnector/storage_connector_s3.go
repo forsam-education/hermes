@@ -6,6 +6,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/forsam-education/simplelogger"
 )
 
 // The S3 Storage Connector handles getting template content from AWS S3 buckets.
@@ -21,6 +22,8 @@ func (storageConnector S3) GetTemplateContent(templateName string) (string, erro
 		return "", fmt.Errorf("unable to get item in bucket %q, reason %s", storageConnector.bucket, err.Error())
 	}
 	buf := new(bytes.Buffer)
+
+	simplelogger.GlobalLogger.Info(fmt.Sprintf("Downloaded template %s from S3 storage", templateName), nil)
 
 	_, err = buf.ReadFrom(templateS3Object.Body)
 	if err != nil {
@@ -44,6 +47,8 @@ func NewS3(bucket string, region string) (*S3, error) {
 	}
 
 	p.s3Client = s3.New(sess)
+
+	simplelogger.GlobalLogger.Info("Connected to S3 storage", simplelogger.LogExtraData{"bucket": bucket})
 
 	return p, nil
 }
