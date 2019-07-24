@@ -13,6 +13,8 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/forsam-education/loggerformatters v1.0.1 h1:mUwoH7+YCvghA8ph+PZ2sZOaiEAZ1Ml5Z30KLRa7Wck=
 github.com/forsam-education/loggerformatters v1.0.1/go.mod h1:mw0fWfUkzc2JCANzMBu2okDwVz0uQi9WnbMAjFcbm0I=
+github.com/forsam-education/loggerformatters v1.0.2 h1:m/yog/xAUKpZNzAmkhrjYfvrzMJfdR+Rv/VeoI9xI/c=
+github.com/forsam-education/loggerformatters v1.0.2/go.mod h1:mw0fWfUkzc2JCANzMBu2okDwVz0uQi9WnbMAjFcbm0I=
 github.com/forsam-education/redriver v0.0.0-20190717215755-2c2c7642a9ca h1:OM60RSijXFLS8UU1iPU2RcL/aAY+sJSjEsD6UpYHRaE=
 github.com/forsam-education/redriver v0.0.0-20190717215755-2c2c7642a9ca/go.mod h1:MD4ySB6SnQ6J/Uw+jlYphy/SM2Ifa0nh0GlZ7cQni9w=
 github.com/forsam-education/redriver v0.0.0-20190723120629-81519e73a337 h1:Z+b3Uw7k+PPeOGyDVNTdT+lqLPZ2yaE4baRf3zdW4ik=
