@@ -10,14 +10,14 @@ import (
 	"io"
 )
 
-// S3 handles getting template content from AWS S3 buckets.
+// S3 handles getting template content from AWS S3 buckets. It implements both AttachementWriter and TemplateFetcher interfaces.
 type S3 struct {
 	bucket   string
 	s3Client *s3.S3
 }
 
-// GetTemplateContent fetches template content by it's name from the S3 TemplateBucket.
-func (s3Connector *S3) GetTemplateContent(templateName string) (string, error) {
+// Fetch the template content by it's name from the S3 TemplateBucket and returns content.
+func (s3Connector *S3) Fetch(templateName string) (string, error) {
 	templateS3Object, err := s3Connector.s3Client.GetObject(&s3.GetObjectInput{Bucket: aws.String(s3Connector.bucket), Key: &templateName})
 	if err != nil {
 		return "", fmt.Errorf("unable to get item in bucket %q: %s", s3Connector.bucket, err.Error())
@@ -34,8 +34,8 @@ func (s3Connector *S3) GetTemplateContent(templateName string) (string, error) {
 	return buf.String(), nil
 }
 
-// Write fetches attachement content by it's name from the S3 bucket and writes to attach it to an email.
-func (s3Connector *S3) Write(attachementPath string, writer io.Writer) error {
+// Copy fetches attachement content by it's name from the S3 bucket and copies it to attach it to an email.
+func (s3Connector *S3) Copy(attachementPath string, writer io.Writer) error {
 	attachementS3Object, err := s3Connector.s3Client.GetObject(&s3.GetObjectInput{Bucket: aws.String(s3Connector.bucket), Key: &attachementPath})
 	if err != nil {
 		return fmt.Errorf("unable to get item in bucket %q: %s", s3Connector.bucket, err.Error())

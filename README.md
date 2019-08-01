@@ -16,7 +16,14 @@ For a bit more advanced code style checks, you can run `golint $(go list ./... |
 
 ## Storage Connectors
 
-Storage connectors just have to implement the StorageConnector interface. 
+There is two types of storage connectors:
+
+- AttachementCopier
+- TemplateFetcher
+
+You can create connectors that implements one or both of these interfaces.
+
+We made the choice to make two interfaces because you may want to put your templates in one type of storage, and your attachements from another without the need to implement large interfaces.
 
 At the moment, only the S3 Bucket connector is available but feel free to implement any other storage connector and make a pull request.
 

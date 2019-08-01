@@ -25,14 +25,14 @@ type mailMessage struct {
 	TemplateContext map[string]interface{} `json:"template_context"`
 }
 
-func buildMailContent(templateConnector storage.TemplateConnector, attachementWriter storage.AttachementWriter, mailMsg *mailMessage) (*gomail.Message, error) {
+func buildMailContent(templateConnector storage.TemplateFetcher, attachementWriter storage.AttachementWriter, mailMsg *mailMessage) (*gomail.Message, error) {
 	message := gomail.NewMessage()
 
-	htmlTemplateContent, err := templateConnector.GetTemplateContent(fmt.Sprintf("%s.html.template", mailMsg.Template))
+	htmlTemplateContent, err := templateConnector.Fetch(fmt.Sprintf("%s.html.template", mailMsg.Template))
 	if err != nil {
 		return nil, err
 	}
-	txtTemplateContent, err := templateConnector.GetTemplateContent(fmt.Sprintf("%s.txt.template", mailMsg.Template))
+	txtTemplateContent, err := templateConnector.Fetch(fmt.Sprintf("%s.txt.template", mailMsg.Template))
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +71,7 @@ func buildMailContent(templateConnector storage.TemplateConnector, attachementWr
 	message.SetHeader("Reply-To", mailMsg.ReplyToAddress)
 	for _, att := range mailMsg.Attachements {
 		message.Attach(att, gomail.SetCopyFunc(func(writer io.Writer) error {
-			return attachementWriter.WriteFile(att, writer)
+			return attachementWriter.Copy(att, writer)
 		}))
 	}
 
@@ -79,7 +79,7 @@ func buildMailContent(templateConnector storage.TemplateConnector, attachementWr
 }
 
 // SendMail builds and sends a mail through SMTP transport
-func SendMail(templateConnector storage.TemplateConnector, attachementWriter storage.AttachementWriter, smtpTransport *gomail.Dialer, messageBody string) error {
+func SendMail(templateConnector storage.TemplateFetcher, attachementWriter storage.AttachementWriter, smtpTransport *gomail.Dialer, messageBody string) error {
 	var mailMsg mailMessage
 
 	err := json.Unmarshal([]byte(messageBody), &mailMsg)
