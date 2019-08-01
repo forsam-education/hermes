@@ -1,5 +1,5 @@
 name-template: Version $NEXT_PATCH_VERSION
-tag-template: v$NEXT_PATCH_VERSION
+tag-template: $NEXT_PATCH_VERSION
 categories:
   - title: Features
     label: feature
