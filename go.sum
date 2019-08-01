@@ -1,10 +1,14 @@
 github.com/aws/aws-lambda-go v1.11.1 h1:wuOnhS5aqzPOWns71FO35PtbtBKHr4MYsPVt5qXLSfI=
 github.com/aws/aws-lambda-go v1.11.1/go.mod h1:Rr2SMTLeSMKgD45uep9V/NP8tnbCcySgu04cx0k/6cw=
+github.com/aws/aws-lambda-go v1.12.0 h1:CgKAMdFIWExd4U6c9DUE+ax8N0fsmkYirqcfmReRCeo=
+github.com/aws/aws-lambda-go v1.12.0/go.mod h1:050MeYvnG0NozqUw+ljHH9x0SwxeBnbxHVhcjn9nJFA=
 github.com/aws/aws-sdk-go v1.20.21 h1:22vHWL9rur+SRTYPHAXlxJMFIA9OSYsYDIAHFDhQ7Z0=
 github.com/aws/aws-sdk-go v1.20.21/go.mod h1:KmX6BPdI08NWTb3/sm4ZGu5ShLoqVDhKgpiN924inxo=
 github.com/aws/aws-sdk-go v1.21.2/go.mod h1:KmX6BPdI08NWTb3/sm4ZGu5ShLoqVDhKgpiN924inxo=
 github.com/aws/aws-sdk-go v1.21.3 h1:Qw/NpqIrCxuZL6sFVvoDlcatEe8woEx1d4gB+tRPsjw=
 github.com/aws/aws-sdk-go v1.21.3/go.mod h1:KmX6BPdI08NWTb3/sm4ZGu5ShLoqVDhKgpiN924inxo=
+github.com/aws/aws-sdk-go v1.21.6 h1:3GuIm55Uls52aQIDGBnSEZbk073jpasfQyeM5eZU61Q=
+github.com/aws/aws-sdk-go v1.21.6/go.mod h1:KmX6BPdI08NWTb3/sm4ZGu5ShLoqVDhKgpiN924inxo=
 github.com/caarlos0/env/v6 v6.0.0 h1:NZt6FAoB8ieKO5lEwRdwCzYxWFx7ZYF2R7UcoyaWtyc=
 github.com/caarlos0/env/v6 v6.0.0/go.mod h1:+wdyOmtjoZIW2GJOc2OYa5NoOFuWD/bIpWqm30NgtRk=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
@@ -13,6 +17,8 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/forsam-education/loggerformatters v1.0.1 h1:mUwoH7+YCvghA8ph+PZ2sZOaiEAZ1Ml5Z30KLRa7Wck=
 github.com/forsam-education/loggerformatters v1.0.1/go.mod h1:mw0fWfUkzc2JCANzMBu2okDwVz0uQi9WnbMAjFcbm0I=
+github.com/forsam-education/loggerformatters v1.0.2 h1:m/yog/xAUKpZNzAmkhrjYfvrzMJfdR+Rv/VeoI9xI/c=
+github.com/forsam-education/loggerformatters v1.0.2/go.mod h1:mw0fWfUkzc2JCANzMBu2okDwVz0uQi9WnbMAjFcbm0I=
 github.com/forsam-education/redriver v0.0.0-20190717215755-2c2c7642a9ca h1:OM60RSijXFLS8UU1iPU2RcL/aAY+sJSjEsD6UpYHRaE=
 github.com/forsam-education/redriver v0.0.0-20190717215755-2c2c7642a9ca/go.mod h1:MD4ySB6SnQ6J/Uw+jlYphy/SM2Ifa0nh0GlZ7cQni9w=
 github.com/forsam-education/redriver v0.0.0-20190723120629-81519e73a337 h1:Z+b3Uw7k+PPeOGyDVNTdT+lqLPZ2yaE4baRf3zdW4ik=
