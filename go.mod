@@ -3,7 +3,7 @@ module github.com/forsam-education/hermes
 go 1.12
 
 require (
-	github.com/aws/aws-lambda-go v1.12.0
+	github.com/aws/aws-lambda-go v1.12.1
 	github.com/aws/aws-sdk-go v1.21.9
 	github.com/caarlos0/env/v6 v6.0.0
 	github.com/forsam-education/loggerformatters v1.0.2
