@@ -62,7 +62,11 @@ Here is an example of message body to send:
     "myVar": "value"
   },
   "bcc": ["sneaky@yourmanager.com"],
-  "cc": ["not-so-sneaky@example.com"]
+  "cc": ["not-so-sneaky@example.com"],
+  "attachements": [
+    "invoice.pdf",
+    "test.txt"
+  ]
 }
 ```
 
