@@ -25,7 +25,7 @@ type mailMessage struct {
 	TemplateContext map[string]interface{} `json:"template_context"`
 }
 
-func buildMailContent(templateConnector storage.TemplateFetcher, attachementWriter storage.AttachementWriter, mailMsg *mailMessage) (*gomail.Message, error) {
+func buildMailContent(templateConnector storage.TemplateFetcher, attachementWriter storage.AttachementCopier, mailMsg *mailMessage) (*gomail.Message, error) {
 	message := gomail.NewMessage()
 
 	htmlTemplateContent, err := templateConnector.Fetch(fmt.Sprintf("%s.html.template", mailMsg.Template))
@@ -79,7 +79,7 @@ func buildMailContent(templateConnector storage.TemplateFetcher, attachementWrit
 }
 
 // SendMail builds and sends a mail through SMTP transport
-func SendMail(templateConnector storage.TemplateFetcher, attachementWriter storage.AttachementWriter, smtpTransport *gomail.Dialer, messageBody string) error {
+func SendMail(templateConnector storage.TemplateFetcher, attachementWriter storage.AttachementCopier, smtpTransport *gomail.Dialer, messageBody string) error {
 	var mailMsg mailMessage
 
 	err := json.Unmarshal([]byte(messageBody), &mailMsg)

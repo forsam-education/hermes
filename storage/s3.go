@@ -10,7 +10,7 @@ import (
 	"io"
 )
 
-// S3 handles getting template content from AWS S3 buckets. It implements both AttachementWriter and TemplateFetcher interfaces.
+// S3 handles getting template content from AWS S3 buckets. It implements both AttachementCopier and TemplateFetcher interfaces.
 type S3 struct {
 	bucket   string
 	s3Client *s3.S3
