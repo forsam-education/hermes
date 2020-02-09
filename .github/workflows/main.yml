@@ -1,0 +1,31 @@
+name: CI
+on: [push]
+jobs:
+  lintbuild:
+    name: Lint & Build
+    runs-on: ubuntu-latest
+    env:
+      GO111MODULE: on
+    steps:
+    - name: Set up Go 1.13
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.13
+      id: go
+    
+    - name: Get linting dependencies
+      run: |
+        go get -u golang.org/x/lint/golint
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+
+    - name: Lint code
+      run: |
+        diff -u <(echo -n) <(gofmt -d ./)
+        /home/runner/go/bin/golint -set_exit_status $(go list ./... | grep -v /vendor/)
+
+    - name: Get dependencies
+      run: go get
+
+    - name: Build
+      run: GOOS=linux go build -ldflags="-s -w" -o bin/hermes ./main.go
