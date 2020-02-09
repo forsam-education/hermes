@@ -10,7 +10,7 @@ import (
 	"io"
 )
 
-// S3 handles getting template content from AWS S3 buckets. It implements both AttachementCopier and TemplateFetcher interfaces.
+// S3 handles getting template content from AWS S3 buckets. It implements both AttachmentCopier and TemplateFetcher interfaces.
 type S3 struct {
 	bucket   string
 	s3Client *s3.S3
@@ -34,17 +34,17 @@ func (s3Connector *S3) Fetch(templateName string) (string, error) {
 	return buf.String(), nil
 }
 
-// Copy fetches attachement content by it's name from the S3 bucket and copies it to attach it to an email.
-func (s3Connector *S3) Copy(attachementPath string, writer io.Writer) error {
-	attachementS3Object, err := s3Connector.s3Client.GetObject(&s3.GetObjectInput{Bucket: aws.String(s3Connector.bucket), Key: &attachementPath})
+// Copy fetches attachment content by it's name from the S3 bucket and copies it to attach it to an email.
+func (s3Connector *S3) Copy(attachmentPath string, writer io.Writer) error {
+	attachmentS3Object, err := s3Connector.s3Client.GetObject(&s3.GetObjectInput{Bucket: aws.String(s3Connector.bucket), Key: &attachmentPath})
 	if err != nil {
 		return fmt.Errorf("unable to get item in bucket %q: %s", s3Connector.bucket, err.Error())
 	}
-	simplelogger.GlobalLogger.Info(fmt.Sprintf("Downloaded attachement %s from S3 storage", attachementPath), nil)
+	simplelogger.GlobalLogger.Info(fmt.Sprintf("Downloaded attachment %s from S3 storage", attachmentPath), nil)
 
-	_, err = io.Copy(writer, attachementS3Object.Body)
+	_, err = io.Copy(writer, attachmentS3Object.Body)
 	if err != nil {
-		return fmt.Errorf("unable to read from object %v: %s", attachementS3Object, err.Error())
+		return fmt.Errorf("unable to read from object %v: %s", attachmentS3Object, err.Error())
 	}
 
 	return nil

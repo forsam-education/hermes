@@ -1,6 +1,6 @@
 # Hermes
 
-[![CircleCI](https://circleci.com/gh/forsam-education/hermes/tree/master.svg?style=svg)](https://circleci.com/gh/forsam-education/hermes/tree/master)
+![CI](https://github.com/forsam-education/hermes/workflows/CI/badge.svg)
 [![GoDoc](https://godoc.org/github.com/forsam-education/hermes?status.svg)](https://godoc.org/github.com/forsam-education/hermes)
 [![Go Report Card](https://goreportcard.com/badge/github.com/forsam-education/hermes)](https://goreportcard.com/report/github.com/forsam-education/hermes)
 ![Version](https://img.shields.io/github/tag/forsam-education/hermes?color=blue&label=version)
@@ -19,12 +19,12 @@ For a bit more advanced code style checks, you can run `golint $(go list ./... |
 
 There is two types of storage connectors:
 
-- AttachementCopier
+- AttachmentCopier
 - TemplateFetcher
 
 You can create connectors that implements one or both of these interfaces.
 
-We made the choice to make two interfaces because you may want to put your templates in one type of storage, and your attachements from another without the need to implement large interfaces.
+We made the choice to make two interfaces because you may want to put your templates in one type of storage, and your attachments from another without the need to implement large interfaces.
 
 At the moment, only the S3 Bucket connector is available but feel free to implement any other storage connector and make a pull request.
 
@@ -63,13 +63,13 @@ Here is an example of message body to send:
   },
   "bcc": ["sneaky@yourmanager.com"],
   "cc": ["not-so-sneaky@example.com"],
-  "attachements": [
+  "attachments": [
     "invoice.pdf",
     "test.txt"
   ]
 }
 ```
 
-
 ## License
+
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fforsam-education%2Fhermes.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fforsam-education%2Fhermes?ref=badge_large)

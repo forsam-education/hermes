@@ -8,8 +8,8 @@ type TemplateFetcher interface {
 	Fetch(templateName string) (string, error)
 }
 
-// AttachementCopier interface should be implemented by any service responsible to get attachement files from a storage manager (FS, S3 TemplateBucket, Redis... etc).
-type AttachementCopier interface {
-	// Copy should, as expected, copy the attachement file to the provided io.Writer.
-	Copy(attachementPath string, writer io.Writer) error
+// AttachmentCopier interface should be implemented by any service responsible to get attachment files from a storage manager (FS, S3 TemplateBucket, Redis... etc).
+type AttachmentCopier interface {
+	// Copy should, as expected, copy the attachment file to the provided io.Writer.
+	Copy(attachmentPath string, writer io.Writer) error
 }

@@ -21,11 +21,11 @@ type mailMessage struct {
 	Subject         string                 `json:"subject"`
 	CC              []string               `json:"cc,omitempty"`
 	BCC             []string               `json:"bcc,omitempty"`
-	Attachements    []string               `json:"attachements,omitempty"`
+	attachments     []string               `json:"attachments,omitempty"`
 	TemplateContext map[string]interface{} `json:"template_context"`
 }
 
-func buildMailContent(templateConnector storage.TemplateFetcher, attachementWriter storage.AttachementCopier, mailMsg *mailMessage) (*gomail.Message, error) {
+func buildMailContent(templateConnector storage.TemplateFetcher, attachmentWriter storage.AttachmentCopier, mailMsg *mailMessage) (*gomail.Message, error) {
 	message := gomail.NewMessage()
 
 	htmlTemplateContent, err := templateConnector.Fetch(fmt.Sprintf("%s.html.template", mailMsg.Template))
@@ -69,9 +69,9 @@ func buildMailContent(templateConnector storage.TemplateFetcher, attachementWrit
 	message.SetHeader("Cc", ccAddresses...)
 	message.SetHeader("Bcc", bccAddresses...)
 	message.SetHeader("Reply-To", mailMsg.ReplyToAddress)
-	for _, att := range mailMsg.Attachements {
+	for _, att := range mailMsg.attachments {
 		message.Attach(att, gomail.SetCopyFunc(func(writer io.Writer) error {
-			return attachementWriter.Copy(att, writer)
+			return attachmentWriter.Copy(att, writer)
 		}))
 	}
 
@@ -79,7 +79,7 @@ func buildMailContent(templateConnector storage.TemplateFetcher, attachementWrit
 }
 
 // SendMail builds and sends a mail through SMTP transport
-func SendMail(templateConnector storage.TemplateFetcher, attachementWriter storage.AttachementCopier, smtpTransport *gomail.Dialer, messageBody string) error {
+func SendMail(templateConnector storage.TemplateFetcher, attachmentWriter storage.AttachmentCopier, smtpTransport *gomail.Dialer, messageBody string) error {
 	var mailMsg mailMessage
 
 	err := json.Unmarshal([]byte(messageBody), &mailMsg)
@@ -87,7 +87,7 @@ func SendMail(templateConnector storage.TemplateFetcher, attachementWriter stora
 		return fmt.Errorf("unable tu unmarshal email: %s", err.Error())
 	}
 
-	mail, err := buildMailContent(templateConnector, attachementWriter, &mailMsg)
+	mail, err := buildMailContent(templateConnector, attachmentWriter, &mailMsg)
 	if err != nil {
 		return err
 	}
