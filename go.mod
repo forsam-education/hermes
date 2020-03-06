@@ -5,7 +5,7 @@ go 1.12
 require (
 	github.com/aws/aws-lambda-go v1.14.0
 	github.com/aws/aws-sdk-go v1.29.14
-	github.com/caarlos0/env/v6 v6.1.0
+	github.com/caarlos0/env/v6 v6.2.1
 	github.com/forsam-education/loggerformatters v1.0.2
 	github.com/forsam-education/redriver v0.0.0-20190723120629-81519e73a337
 	github.com/forsam-education/simplelogger v0.2.4
