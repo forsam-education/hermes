@@ -15,7 +15,7 @@ import (
 
 type config struct {
 	TemplateBucket   string `env:"TEMPLATE_BUCKET"`
-	attachmentBucket string `env:"attachment_BUCKET"`
+	AttachmentBucket string `env:"ATTACHMENT_BUCKET"`
 	SMTPHost         string `env:"SMTP_HOST"`
 	SMTPPort         int    `env:"SMTP_PORT" envDefault:"465"`
 	SMTPUserName     string `env:"SMTP_USER"`
@@ -24,7 +24,7 @@ type config struct {
 	QueueURL         string `env:"SQS_QUEUE"`
 }
 
-// HandleRequest is the main handler function used by the lambda runtime for the incomming event.
+// HandleRequest is the main handler function used by the lambda runtime for the incoming event.
 func HandleRequest(_ context.Context, event events.SQSEvent) error {
 	simplelogger.GlobalLogger = simplelogger.NewDefaultLogger(simplelogger.DEBUG)
 
@@ -42,7 +42,7 @@ func HandleRequest(_ context.Context, event events.SQSEvent) error {
 		return err
 	}
 
-	attachmentWriter, err := storage.NewS3(cfg.attachmentBucket, cfg.AWSRegion)
+	attachmentWriter, err := storage.NewS3(cfg.AttachmentBucket, cfg.AWSRegion)
 	if err != nil {
 		err = fmt.Errorf("unable to instantiate attachment writer: %s", err.Error())
 		simplelogger.GlobalLogger.StdError(err, nil)
