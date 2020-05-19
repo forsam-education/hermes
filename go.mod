@@ -7,7 +7,7 @@ require (
 	github.com/aws/aws-sdk-go v1.31.1
 	github.com/caarlos0/env/v6 v6.2.2
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/forsam-education/redriver v0.0.0-20190723120629-81519e73a337
+	github.com/forsam-education/redriver v0.3.0
 	github.com/forsam-education/simplelogger v0.2.4
 	golang.org/x/text v0.3.2 // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
