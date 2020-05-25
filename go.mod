@@ -3,7 +3,7 @@ module github.com/forsam-education/hermes
 go 1.12
 
 require (
-	github.com/aws/aws-lambda-go v1.16.0
+	github.com/aws/aws-lambda-go v1.17.0
 	github.com/aws/aws-sdk-go v1.31.4
 	github.com/caarlos0/env/v6 v6.2.2
 	github.com/davecgh/go-spew v1.1.1 // indirect
