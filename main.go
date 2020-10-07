@@ -9,7 +9,6 @@ import (
 	"github.com/forsam-education/hermes/mailmessage"
 	"github.com/forsam-education/hermes/storage"
 	"github.com/forsam-education/redriver"
-	"github.com/forsam-education/simplelogger"
 	"gopkg.in/gomail.v2"
 )
 
@@ -26,27 +25,19 @@ type config struct {
 
 // HandleRequest is the main handler function used by the lambda runtime for the incoming event.
 func HandleRequest(_ context.Context, event events.SQSEvent) error {
-	simplelogger.GlobalLogger = simplelogger.NewDefaultLogger(simplelogger.DEBUG)
-
 	cfg := config{}
 	if err := env.Parse(&cfg); err != nil {
-		err = fmt.Errorf("unable to parse configuration: %s", err.Error())
-		simplelogger.GlobalLogger.StdError(err, nil)
-		return err
+		return fmt.Errorf("unable to parse configuration: %s", err.Error())
 	}
 	smtpTransport := gomail.NewDialer(cfg.SMTPHost, cfg.SMTPPort, cfg.SMTPUserName, cfg.SMTPPassword)
 	templateConnector, err := storage.NewS3(cfg.TemplateBucket, cfg.AWSRegion)
 	if err != nil {
-		err = fmt.Errorf("unable to instantiate template connector: %s", err.Error())
-		simplelogger.GlobalLogger.StdError(err, nil)
-		return err
+		return fmt.Errorf("unable to instantiate template connector: %s", err.Error())
 	}
 
 	attachmentWriter, err := storage.NewS3(cfg.AttachmentBucket, cfg.AWSRegion)
 	if err != nil {
-		err = fmt.Errorf("unable to instantiate attachment writer: %s", err.Error())
-		simplelogger.GlobalLogger.StdError(err, nil)
-		return err
+		return fmt.Errorf("unable to instantiate attachment writer: %s", err.Error())
 	}
 
 	messageRedriver := redriver.Redriver{Retries: 3, ConsumedQueueURL: cfg.QueueURL}
@@ -54,9 +45,6 @@ func HandleRequest(_ context.Context, event events.SQSEvent) error {
 	err = messageRedriver.HandleMessages(event.Records, func(event events.SQSMessage) error {
 		return mailmessage.SendMail(templateConnector, attachmentWriter, smtpTransport, event.Body)
 	})
-	if err != nil {
-		simplelogger.GlobalLogger.StdError(err, nil)
-	}
 
 	return err
 }

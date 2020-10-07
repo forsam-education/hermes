@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/forsam-education/hermes/storage"
-	"github.com/forsam-education/simplelogger"
 	"gopkg.in/gomail.v2"
 	htemplate "html/template"
 	"io"
+	"log"
 	ttemplate "text/template"
 )
 
@@ -21,7 +21,7 @@ type mailMessage struct {
 	Subject         string                 `json:"subject"`
 	CC              []string               `json:"cc,omitempty"`
 	BCC             []string               `json:"bcc,omitempty"`
-	attachments     []string               `json:"attachments,omitempty"`
+	Attachments     []string               `json:"attachments,omitempty"`
 	TemplateContext map[string]interface{} `json:"template_context"`
 }
 
@@ -69,7 +69,7 @@ func buildMailContent(templateConnector storage.TemplateFetcher, attachmentWrite
 	message.SetHeader("Cc", ccAddresses...)
 	message.SetHeader("Bcc", bccAddresses...)
 	message.SetHeader("Reply-To", mailMsg.ReplyToAddress)
-	for _, att := range mailMsg.attachments {
+	for _, att := range mailMsg.Attachments {
 		message.Attach(att, gomail.SetCopyFunc(func(writer io.Writer) error {
 			return attachmentWriter.Copy(att, writer)
 		}))
@@ -96,7 +96,7 @@ func SendMail(templateConnector storage.TemplateFetcher, attachmentWriter storag
 		return fmt.Errorf("unable to send email through smtp: %s", err.Error())
 	}
 
-	simplelogger.GlobalLogger.Info("Sent email message", simplelogger.LogExtraData{"mail": mailMsg})
+	log.Printf("Sent email message %+v\n", mailMsg)
 
 	return nil
 }

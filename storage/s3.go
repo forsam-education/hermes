@@ -6,8 +6,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/forsam-education/simplelogger"
 	"io"
+	"log"
 )
 
 // S3 handles getting template content from AWS S3 buckets. It implements both AttachmentCopier and TemplateFetcher interfaces.
@@ -24,7 +24,7 @@ func (s3Connector *S3) Fetch(templateName string) (string, error) {
 	}
 	buf := new(bytes.Buffer)
 
-	simplelogger.GlobalLogger.Info(fmt.Sprintf("Downloaded template %s from S3 storage", templateName), nil)
+	log.Printf("Downloaded template %s from S3 storage", templateName)
 
 	_, err = buf.ReadFrom(templateS3Object.Body)
 	if err != nil {
@@ -40,7 +40,7 @@ func (s3Connector *S3) Copy(attachmentPath string, writer io.Writer) error {
 	if err != nil {
 		return fmt.Errorf("unable to get item in bucket %q: %s", s3Connector.bucket, err.Error())
 	}
-	simplelogger.GlobalLogger.Info(fmt.Sprintf("Downloaded attachment %s from S3 storage", attachmentPath), nil)
+	log.Printf("Downloaded attachment %s from S3 storage", attachmentPath)
 
 	_, err = io.Copy(writer, attachmentS3Object.Body)
 	if err != nil {
@@ -65,7 +65,7 @@ func NewS3(bucket string, region string) (*S3, error) {
 
 	p.s3Client = s3.New(sess)
 
-	simplelogger.GlobalLogger.Info("Connected to S3 storage", simplelogger.LogExtraData{"bucket": bucket})
+	fmt.Printf("Connected to S3 storage bucket %s", bucket)
 
 	return p, nil
 }
