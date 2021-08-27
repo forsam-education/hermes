@@ -13,19 +13,3 @@ updates:
   labels:
   - chore
   - dependencies
-  ignore:
-  - dependency-name: github.com/aws/aws-sdk-go
-    versions:
-    - 1.36.31
-    - 1.37.1
-    - 1.37.10
-    - 1.37.15
-    - 1.37.20
-    - 1.37.25
-    - 1.37.6
-  - dependency-name: github.com/aws/aws-lambda-go
-    versions:
-    - 1.22.0
-  - dependency-name: github.com/caarlos0/env/v6
-    versions:
-    - 6.4.0
